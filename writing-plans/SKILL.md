@@ -15,9 +15,9 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 
 **Announce at start:** "I'm using the writing-plans skill to create the implementation plan."
 
-**Context:** If working in an isolated worktree, it should have been created via the `superpowers:using-git-worktrees` skill at execution time.
+**Context:** If working in an isolated worktree, it should have been created via the `medium-powers:using-git-worktrees` skill at execution time.
 
-**Save plans to:** `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
+**Save plans to:** `docs/medium-powers/plans/YYYY-MM-DD-<feature-name>.md`
 
 - (User preferences for plan location override this default)
 
@@ -35,8 +35,6 @@ Before writing the plan, perform an existing-flow inventory:
 - Which existing flow should this feature reuse or extend?
 - Which interfaces or functions need to be implemented, extended, or reused?
 
-Analyze the requirements in the spec and break them down into several use cases, including their trigger conditions and expected outcomes. If the task is a refactoring or another non-functional change, emphasize the data flow and the core data structures instead.
-
 Before creating a new flow, inspect the existing codebase and identify the closest reusable flow. The plan must explain whether the new use case reuses, extends, or intentionally bypasses that flow. Bypassing an existing flow requires explicit justification.
 
 For each use case, define one primary integration test group before defining implementation tasks.
@@ -47,13 +45,39 @@ The integration test should:
 - Use real core modules and existing reusable flow whenever possible
 - Verify final state, output, and important side effects
 - Define which interfaces/functions must be implement or extended for the flow to run
-- No compilation is required; it only provides semantic guidance.
 
 # File Structure
 
 ````markdown
 # [Feature Name] Implementation Plan
 
+## [Use case] use case's title
+
+### Existing Flow Inventory
+existing flow should this feature reuse or extend
+
+### Core structure
+You need to clarify detail definition of types/interfaces/functions need to be implemented:
+
+- Core domain models
+- DTOs / state shapes
+- Interface inputs and outputs
+- State transitions
+-
+such as
+```
+type ThreadState = {
+  threadId: string;
+  title: string | null;
+  status: RunStatus;
+  messages: ThreadMessage[];
+};
+
+async createThread(params: {id: string...}): Promise<ThreadStoreResult<void>>;
+```
+Do not rush into implementation. First, make the interfaces clearly express how the flow is connected. Must clearly provide a detailed definition of the capability will be implemented
+
+### Use case map
 For each key point, describe the use-case flow with this loop:
 
 ```mermaid
@@ -68,11 +92,12 @@ flowchart LR
 
 For each loop iteration, make clear the consumed structure, the consumer function or interface, the result  structure that consumer output, how the result is consumed next, and which function-level or interface-level capability must be implemented, extend or reused.
 
-## [Use case] Integrate Test
-`/path/to/test.xxx`
-natural-language description(how to make the test work)
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended)  to make the test work
-`test code/*No compilation is required; it only provides semantic guidance. Must clearly provide a detailed definition of the capability will be implemented*/`
+
+- Integration test need to create when exceeding: `/path/to/test.xxx`
+natural-language/near-code description(how to make the test work)
+During planning, the test may be expressed as near-code to define semantics.
+During implementation, the first execution task must turn it into a runnable test or runnable verification before writing production code.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use medium-powers:subagent-driven-development (recommended)  to make the test work
 ````
 
 At last ask the user to review the integration test before implementation begins.
@@ -89,7 +114,7 @@ After writing the complete plan, review the plan with fresh eyes and check the p
 
 After saving the plan, offer execution choice:
 
-**"Plan complete and saved to `docs/superpowers/plans/<filename>.md`. Two execution options:**
+**"Plan complete and saved to `docs/medium-powers/plans/<filename>.md`. Two execution options:**
 
 **1. Subagent-Driven (recommended)** - I dispatch a fresh subagent per task, review between tasks, fast iteration
 
@@ -99,10 +124,10 @@ After saving the plan, offer execution choice:
 
 **If Subagent-Driven chosen:**
 
-- **REQUIRED SUB-SKILL:** Use superpowers:subagent-driven-development
+- **REQUIRED SUB-SKILL:** Use medium-powers:subagent-driven-development
 - Fresh subagent per task + two-stage review
 
 **If Inline Execution chosen:**
 
-- **REQUIRED SUB-SKILL:** Use superpowers:executing-plans
+- **REQUIRED SUB-SKILL:** Use medium-powers:executing-plans
 - Batch execution with checkpoints for review

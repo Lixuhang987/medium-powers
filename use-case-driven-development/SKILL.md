@@ -1,5 +1,5 @@
 ---
-name: test-driven-development
+name: use-case-driven-development
 description: Use when implementing any feature or bugfix, before writing implementation code
 ---
 
@@ -7,10 +7,10 @@ description: Use when implementing any feature or bugfix, before writing impleme
 
 ## Overview
 
-Define the use case flow first.
-Then define the core data structures and interface contracts.
+Start from an approved writing plan.
+Confirm the plan already defines the use case flow, core data structures, and interface contracts.
 Then write an integration test that proves the flow works end to end.
-Finally, implement the minimum amount of code required to make this use case pass.
+Finally, implement the minimum amount of code required to make the current use case pass.
 
 **Core principle:** You do not need to write fine-grained unit tests for every internal function, but you must control the core data structures, interface boundaries, and complete flow of the use case.
 
@@ -35,93 +35,59 @@ Fine-grained unit tests may still be kept when:
 
 ## Iron Rule
 
-Do not start implementation before defining the use case flow and interface contracts.
+Do not start implementation from this skill unless a writing plan exists and is usable.
 
-Before implementation, you must clearly define:
+The writing plan, not this skill, owns detailed planning and contract definition. Before writing implementation code, confirm the plan clearly defines:
 
-- What input is received after the trigger?
-- Which functions or interfaces does the input pass through?
-- What structures is it parsed into at each step of the flow?
-- How is the parsed result eventually consumed?
-- What function-level or interface-level capabilities need to be implemented or reused?
-- What are the core data structures?
-- What is the responsibility of each interface?
+- The use case trigger and expected result
+- The existing flow to reuse or extend
+- The core data structures and interface contracts
+- The use-case-level integration test to create first
+- The implementation tasks needed to make that test pass
 
 ## Development Loop
 
-**PLAN → CONTRACT → INTEGRATION TEST → IMPLEMENT → VERIFY → REFACTOR**
+**PLAN CHECK → INTEGRATION TEST → IMPLEMENT → VERIFY → REFACTOR**
 
 ------
 
-## 1. PLAN — Define the Use Case
+## 1. PLAN CHECK — Confirm the Writing Plan Exists
 
-First, write a minimal but complete use case.
+This skill does not create the product spec, use case map, or interface contracts. Those are writing-plans work.
 
-A good use case should include:
+Before continuing, locate the relevant implementation plan. If no plan exists, stop and invoke `medium-powers:writing-plans` first.
+
+The plan must include:
 
 - User or system trigger
-- Initial input
-- Key state
-- Expected output
-- Important side effects
-- Failure scenarios or boundary cases
+- Expected result or observable effect
+- Existing flow inventory
+- Core data structures and interface contracts
+- Use case map showing how data moves through functions or interfaces
+- Path or near-code description for the integration test to create
 
-Example:
-
-```markdown
-## Use Case: Create an agent session after the user submits a prompt
-
-### Trigger
-
-- The user presses Enter to submit a prompt
-
-### Input
-
-- The prompt entered by the user
-- The list of available tools
-
-### Flow
-
-1. The UI submits the prompt
-2. A session is created
-3. A UserMessage is saved
-4. AgentRuntime is called
-5. AgentRunner decides whether to call tools based on the tool schema
-6. An AssistantMessage is written
-7. The UI receives the session update
-
-### Expected Result
-
-- A session is created
-- The user message is persisted
-- AgentRuntime is called
-- An assistant message is appended
-- The UI can render the complete conversation based on the session state
-```
+If the plan is missing one of these, stop and repair the plan before writing tests or implementation code.
 
 ------
 
-## 2. CONTRACT — Define Core Data Structures and Interfaces
+## 2. PLAN FIT — Keep Work Inside the Plan
 
-Before implementation, define the boundaries instead of jumping directly into internal logic.
+Use the plan as the boundary for this execution pass.
 
-You need to clarify:
+Confirm:
 
-- Core domain models
-- DTOs / state shapes
-- Interface inputs and outputs
-- State transitions
-- Dependencies between modules
+- The current task maps to exactly one planned use case or one explicit step in that use case
+- No extra behavior is being added beyond the spec and plan
+- Any needed interface or data structure change is already described in the plan
+- The planned test can be made runnable before production code changes
 
-Do not rush into implementation. First, make the interfaces clearly express how the flow is connected. Must clearly provide a detailed definition of the capability will be implemented
+If implementation reveals that the plan is wrong, update the plan first. Do not silently redesign inside implementation.
 
 ------
 
 ## 3. INTEGRATION TEST — Write Use-Case-Level Tests
 
 The test should cover a complete flow, not an internal function.
-
-No compilation is required; it only provides semantic guidance. 
 
 A good test focuses on:
 
@@ -198,7 +164,7 @@ Confirm that:
 - The test does not over-mock your own business code
 
 If the test fails, fix the implementation first.
-If the test is hard to write, first check whether the interface design or data structures are unclear.
+If the test is hard to write, first check whether the interface boundaries or data structures are unclear.
 
 ------
 
