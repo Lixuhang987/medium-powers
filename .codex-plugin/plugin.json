@@ -1,12 +1,12 @@
 {
-  "name": "medium-power",
+  "name": "medium-powers",
   "version": "0.1.0",
   "description": "A use-case-driven development workflow for coding agents, focused on plan-gated integration tests and reviewable delivery.",
   "author": {
-    "name": "Medium Power contributors"
+    "name": "Medium Powers contributors"
   },
-  "homepage": "https://github.com/<owner>/medium-power",
-  "repository": "https://github.com/<owner>/medium-power",
+  "homepage": "https://github.com/Lixuhang987/medium-powers",
+  "repository": "https://github.com/Lixuhang987/medium-powers",
   "license": "Apache-2.0",
   "keywords": [
     "codex",
@@ -17,12 +17,12 @@
     "code-review",
     "workflow"
   ],
-  "skills": "./",
+  "skills": "./skills/",
   "interface": {
-    "displayName": "Medium Power",
+    "displayName": "Medium Powers",
     "shortDescription": "Use-case-driven development workflows for coding agents",
-    "longDescription": "Medium Power is an experimental Codex plugin that replaces scattered function-level TDD pressure with plan-gated use-case flows, use-case-level integration tests, focused implementation, and review checkpoints.",
-    "developerName": "Medium Power contributors",
+    "longDescription": "Medium Powers is an experimental Codex plugin that replaces scattered function-level TDD pressure with plan-gated use-case flows, use-case-level integration tests, focused implementation, and review checkpoints.",
+    "developerName": "Medium Powers contributors",
     "category": "Developer Tools",
     "capabilities": [
       "Interactive",
@@ -33,7 +33,7 @@
       "Let's build this through a use-case-driven plan.",
       "Help me implement this with use-case-level tests."
     ],
-    "websiteURL": "https://github.com/<owner>/medium-power",
+    "websiteURL": "https://github.com/Lixuhang987/medium-powers",
     "brandColor": "#2563EB",
     "screenshots": []
   }

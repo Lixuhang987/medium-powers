@@ -1,10 +1,76 @@
-# Medium Power
+# Medium Powers
 
-Medium Power is an experimental Codex plugin for use-case-driven development.
+## Quick Start
+
+Medium Powers is not in the official Codex plugin marketplace yet. Install it as a local plugin.
+
+Clone the repository into the current directory:
+
+```bash
+mkdir medium-powers
+cd medium-powers
+git clone https://github.com/Lixuhang987/medium-powers.git .
+```
+
+Copy the plugin into Codex's local plugin directory:
+
+```bash
+mkdir -p ~/plugins/medium-powers
+rsync -a --delete --exclude '.git' ./ ~/plugins/medium-powers/
+```
+
+Register the local plugin marketplace entry:
+
+```bash
+python3 - <<'PY'
+import json
+from pathlib import Path
+
+marketplace = Path.home() / '.agents/plugins/marketplace.json'
+marketplace.parent.mkdir(parents=True, exist_ok=True)
+
+if marketplace.exists():
+    data = json.loads(marketplace.read_text())
+else:
+    data = {
+        'name': 'local',
+        'interface': {'displayName': 'Local Plugins'},
+        'plugins': [],
+    }
+
+entry = {
+    'name': 'medium-powers',
+    'source': {
+        'source': 'local',
+        'path': './plugins/medium-powers',
+    },
+    'policy': {
+        'installation': 'AVAILABLE',
+        'authentication': 'ON_INSTALL',
+    },
+    'category': 'Developer Tools',
+}
+
+plugins = data.setdefault('plugins', [])
+plugins[:] = [plugin for plugin in plugins if plugin.get('name') != 'medium-powers']
+plugins.append(entry)
+
+marketplace.write_text(json.dumps(data, indent=2) + '\n')
+print(f'Updated {marketplace}')
+PY
+```
+
+Restart Codex, open the plugin picker, and install `Medium Powers` from the local marketplace.
+
+The local marketplace path `./plugins/medium-powers` resolves from your home directory, so the actual plugin files live at `~/plugins/medium-powers`.
+
+## What It Is
+
+Medium Powers is an experimental Codex plugin for use-case-driven development.
 
 It started as a response to a pattern I kept seeing in agent workflows: as models get stronger, strict TDD templates can become procedural latency instead of engineering leverage. They often push the agent toward scattered, function-level tests, fragmented implementation steps, and too little meaningful review of whether the real user flow works.
 
-Medium Power keeps the useful discipline of planning, tests, verification, and review, but changes the center of gravity:
+Medium Powers keeps the useful discipline of planning, tests, verification, and review, but changes the center of gravity:
 
 > Define the use case, control the core data structures and interface contracts, write a use-case-level integration test, then implement the smallest amount of code needed to make that flow work.
 
@@ -12,7 +78,7 @@ This is not anti-testing. It is a narrower testing strategy for coding agents: t
 
 ## How It Works
 
-Medium Power is built as a set of Codex skills. The main development loop is:
+Medium Powers is built as a set of Codex skills. The main development loop is:
 
 1. **Brainstorming** - clarify the intent and produce a reviewed design.
 2. **Writing plans** - map existing flows, define use cases, data structures, interfaces, and the integration test target.
@@ -33,13 +99,13 @@ For coding agents, though, a rigid TDD template can create the wrong default beh
 - Review becomes rare or shallow because each step appears locally green.
 - The final system can pass tests while the use case remains incoherent.
 
-Medium Power tries a different default: one integration test group per use case, with explicit data structures, interface boundaries, and review gates.
+Medium Powers tries a different default: one integration test group per use case, with explicit data structures, interface boundaries, and review gates.
 
 ## What's Inside
 
 ### Core workflow
 
-- `using-medium-power` - entry skill that tells the agent how to use the workflow.
+- `using-medium-powers` - entry skill that tells the agent how to use the workflow.
 - `brainstorming` - turns rough intent into a reviewed design.
 - `writing-plans` - writes implementation plans around use-case flows and integration tests.
 - `use-case-driven-development` - plan-gated integration-test-first implementation.
@@ -59,65 +125,44 @@ Medium Power tries a different default: one integration test group per use case,
 - `using-git-worktrees` - isolates feature work.
 - `writing-skills` - helps create and revise skills.
 
-## Installation
+## Installation Details
 
-Medium Power is not in the official Codex plugin marketplace yet. Until it is published there, install it as a local plugin.
+The Codex local marketplace convention uses this file:
 
-### Codex App or Codex CLI: local install
-
-Clone the repository into a stable local plugin directory:
-
-```bash
-mkdir -p ~/plugins
-git clone https://github.com/<owner>/medium-power.git ~/plugins/medium-power
+```text
+~/.agents/plugins/marketplace.json
 ```
 
-Add a local marketplace entry at `~/.agents/plugins/marketplace.json`:
+A local marketplace entry for Medium Powers should look like this:
 
 ```json
 {
-  "name": "local",
-  "interface": {
-    "displayName": "Local Plugins"
+  "name": "medium-powers",
+  "source": {
+    "source": "local",
+    "path": "./plugins/medium-powers"
   },
-  "plugins": [
-    {
-      "name": "medium-power",
-      "source": {
-        "source": "local",
-        "path": "./plugins/medium-power"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Developer Tools"
-    }
-  ]
+  "policy": {
+    "installation": "AVAILABLE",
+    "authentication": "ON_INSTALL"
+  },
+  "category": "Developer Tools"
 }
 ```
 
-Then restart Codex and install `Medium Power` from the plugin UI or plugin picker.
+If you update the Git checkout later, copy it again into the local plugin directory:
 
-If you already have a local marketplace file, append only the `medium-power` object to its `plugins` array.
-
-### Codex App: after official marketplace publication
-
-Once Medium Power is accepted into the official Codex plugin marketplace:
-
-1. Open **Plugins** in the Codex app sidebar.
-2. Search for `Medium Power`.
-3. Click the install button and follow the prompts.
-
-### Codex CLI: after official marketplace publication
-
-Once Medium Power is accepted into the official Codex plugin marketplace:
-
-```text
-/plugins
+```bash
+rsync -a --delete --exclude '.git' ./ ~/plugins/medium-powers/
 ```
 
-Search for `Medium Power`, then select **Install Plugin**.
+## Codex Official Marketplace
+
+Once Medium Powers is accepted into the official Codex plugin marketplace, installation should use Codex's normal plugin UI instead of the local-copy workflow:
+
+1. Open **Plugins** in the Codex app sidebar, or run `/plugins` in Codex CLI.
+2. Search for `Medium Powers`.
+3. Select **Install Plugin**.
 
 ## Publishing As A Codex Plugin
 
@@ -129,26 +174,12 @@ This repository already includes the required Codex plugin manifest:
 
 Before publishing publicly:
 
-1. Replace every `https://github.com/<owner>/medium-power` placeholder in `.codex-plugin/plugin.json` with the real repository URL.
+1. Confirm `.codex-plugin/plugin.json` still points to `https://github.com/Lixuhang987/medium-powers` for `homepage`, `repository`, and `websiteURL`.
 2. Review the plugin display metadata: `displayName`, `shortDescription`, `longDescription`, `developerName`, and `brandColor`.
 3. If you add icons or screenshots, put them under `assets/` and reference them from `.codex-plugin/plugin.json`.
 4. Tag a release after the metadata is correct.
 
-To publish through the official Codex marketplace, follow the structure used by [openai/plugins](https://github.com/openai/plugins): each plugin lives under `plugins/<name>/` and contains its own `.codex-plugin/plugin.json`. A marketplace PR would add Medium Power as `plugins/medium-power/` with this manifest and the skill directories included.
-
-## Repository Layout
-
-The current repository uses the repository root as the plugin root. The manifest therefore sets:
-
-```json
-"skills": "./"
-```
-
-That lets Codex discover the skill directories directly from this repository. If the repository is later reorganized to match the more common `skills/` subdirectory layout, update the manifest to:
-
-```json
-"skills": "./skills/"
-```
+To publish through the official Codex marketplace, follow the structure used by [openai/plugins](https://github.com/openai/plugins): each plugin lives under `plugins/<name>/` and contains its own `.codex-plugin/plugin.json`. A marketplace PR would add Medium Powers as `plugins/medium-powers/` with this manifest and the skill directories included.
 
 ## Design Principles
 
@@ -161,14 +192,14 @@ That lets Codex discover the skill directories directly from this repository. If
 
 ## Status
 
-Medium Power is experimental. The workflow is intended to be used, criticized, and revised against real agent development sessions.
+Medium Powers is experimental. The workflow is intended to be used, criticized, and revised against real agent development sessions.
 
 ## Upstream Attribution
 
-Medium Power is based on and adapted from [Superpowers](https://github.com/obra/superpowers), created by Jesse Vincent and licensed under the MIT License.
+Medium Powers is based on and adapted from [Superpowers](https://github.com/obra/superpowers), created by Jesse Vincent and licensed under the MIT License.
 
 The original Superpowers copyright and MIT license notice are preserved in [NOTICE](NOTICE).
 
 ## License
 
-Medium Power is licensed under the [Apache License 2.0](LICENSE). Portions adapted from Superpowers remain attributed under the original MIT license notice in [NOTICE](NOTICE).
+Medium Powers is licensed under the [Apache License 2.0](LICENSE). Portions adapted from Superpowers remain attributed under the original MIT license notice in [NOTICE](NOTICE).
