@@ -1,0 +1,40 @@
+{
+  "name": "medium-power",
+  "version": "0.1.0",
+  "description": "A use-case-driven development workflow for coding agents, focused on plan-gated integration tests and reviewable delivery.",
+  "author": {
+    "name": "Medium Power contributors"
+  },
+  "homepage": "https://github.com/<owner>/medium-power",
+  "repository": "https://github.com/<owner>/medium-power",
+  "license": "Apache-2.0",
+  "keywords": [
+    "codex",
+    "skills",
+    "plugin",
+    "use-case-driven-development",
+    "integration-tests",
+    "code-review",
+    "workflow"
+  ],
+  "skills": "./",
+  "interface": {
+    "displayName": "Medium Power",
+    "shortDescription": "Use-case-driven development workflows for coding agents",
+    "longDescription": "Medium Power is an experimental Codex plugin that replaces scattered function-level TDD pressure with plan-gated use-case flows, use-case-level integration tests, focused implementation, and review checkpoints.",
+    "developerName": "Medium Power contributors",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Let's build this through a use-case-driven plan.",
+      "Help me implement this with use-case-level tests."
+    ],
+    "websiteURL": "https://github.com/<owner>/medium-power",
+    "brandColor": "#2563EB",
+    "screenshots": []
+  }
+}
