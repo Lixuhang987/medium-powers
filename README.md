@@ -2,6 +2,38 @@
 
 ## Quick Start
 
+Medium Powers ships as both a Codex plugin and a Claude Code plugin from the same repository. Pick the section that matches your environment.
+
+### Claude Code
+
+Medium Powers is not in the official Claude Code plugin marketplace yet. Install it as a local plugin.
+
+Clone the repository:
+
+```bash
+git clone https://github.com/Lixuhang987/medium-powers.git ~/plugins/medium-powers
+```
+
+Inside Claude Code, register the repository as a local marketplace and install the plugin:
+
+```
+/plugin marketplace add ~/plugins/medium-powers
+/plugin install medium-powers@medium-powers
+```
+
+The marketplace entry is defined in `.claude-plugin/marketplace.json` and the plugin manifest in `.claude-plugin/plugin.json`, so Claude Code resolves both from the cloned directory.
+
+To update later:
+
+```
+/plugin marketplace update medium-powers
+/plugin update medium-powers@medium-powers
+```
+
+If you already have `superpowers` installed, several skill names overlap (`brainstorming`, `writing-plans`, `executing-plans`, etc.). Use `/plugin` to disable one before enabling the other, or pick the one that matches the workflow you want.
+
+### Codex
+
 Medium Powers is not in the official Codex plugin marketplace yet. Install it as a local plugin.
 
 Clone the repository into the current directory:
@@ -78,7 +110,7 @@ This is not anti-testing. It is a narrower testing strategy for coding agents: t
 
 ## How It Works
 
-Medium Powers is built as a set of Codex skills. The main development loop is:
+Medium Powers is built as a set of agent skills (compatible with both Codex and Claude Code). The main development loop is:
 
 1. **Brainstorming** - clarify the intent and produce a reviewed design.
 2. **Writing plans** - map existing flows, define use cases, data structures, interfaces, and the integration test target.

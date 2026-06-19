@@ -53,6 +53,9 @@ The integration test should:
 
 ## [Use case] use case's title
 
+### Goal
+Describe in natural language what exactly needs to be implemented.
+
 ### Existing Flow Inventory
 existing flow should this feature reuse or extend
 

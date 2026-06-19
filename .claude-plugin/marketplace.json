@@ -1,0 +1,17 @@
+{
+  "name": "medium-powers",
+  "description": "Local marketplace for the Medium Powers plugin",
+  "owner": {
+    "name": "Medium Powers contributors"
+  },
+  "plugins": [
+    {
+      "name": "medium-powers",
+      "description": "Use-case-driven development workflows for Claude Code: plan-gated integration tests, focused implementation, and review checkpoints.",
+      "version": "0.1.0",
+      "source": "./",
+      "category": "development",
+      "homepage": "https://github.com/Lixuhang987/medium-powers"
+    }
+  ]
+}
