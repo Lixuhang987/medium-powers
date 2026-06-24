@@ -84,7 +84,9 @@ Skip any step = lying, not verifying
 **Regression tests (use-case-level):**
 ```
 ✅ Write → Run (pass) → Revert fix → Run (MUST FAIL) → Restore → Run (pass)
+✅ Plan says negative test skipped → Verify planned positive tests only → State the skip with plan reference
 ❌ "I've written a regression test" (without red-green verification)
+❌ Adding a negative test just to prove removed behavior is gone when the plan skipped it
 ```
 
 **Build:**

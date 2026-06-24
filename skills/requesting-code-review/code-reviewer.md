@@ -52,8 +52,9 @@ Task tool (general-purpose):
 
     **Testing:**
     - Tests verify real behavior, not mocks?
-    - Edge cases covered?
+    - Planned positive behavior and edge cases covered?
     - Integration tests where they matter?
+    - Negative tests intentionally skipped by the plan are not test gaps.
     - All tests passing?
 
     **Production readiness:**

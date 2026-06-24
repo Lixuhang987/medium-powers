@@ -45,6 +45,8 @@ The integration test should:
 - Use real core modules and existing reusable flow whenever possible
 - Verify final state, output, and important side effects
 - Define which interfaces/functions must be implement or extended for the flow to run
+- Prefer positive behavior tests that prove supported behavior works.
+- Do not require negative tests whose main assertion is that old behavior, a removed feature, or an unsupported path no longer works. If the plan context points to that kind of test, mark it as intentionally skipped and keep only the relevant plan description.
 
 # File Structure
 
@@ -100,6 +102,7 @@ For each loop iteration, make clear the consumed structure, the consumer functio
 natural-language/near-code description(how to make the test work)
 During planning, the test may be expressed as near-code to define semantics.
 During implementation, the first execution task must turn it into a runnable test or runnable verification before writing production code.
+If this would become a negative test, write `Skipped negative test:` and briefly reference only the plan detail that explains why.
 > **For agentic workers:** REQUIRED SUB-SKILL: Use medium-powers:subagent-driven-development (recommended)  to make the test work
 ````
 

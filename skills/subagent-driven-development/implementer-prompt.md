@@ -93,7 +93,8 @@ Task tool (general-purpose):
     **Testing:**
     - Do tests actually verify behavior (not just mock behavior)?
     - Did I follow use-case-driven development if required?
-    - Are tests comprehensive?
+    - Do tests cover the planned positive behavior without adding negative tests?
+    - If the plan implies a negative test, did I skip it and reference only the relevant plan description?
 
     If you find issues during self-review, fix them now before reporting.
 

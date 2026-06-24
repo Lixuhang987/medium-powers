@@ -65,6 +65,7 @@ The plan must include:
 - Core data structures and interface contracts
 - Use case map showing how data moves through functions or interfaces
 - Path or near-code description for the integration test to create
+- Any planned negative test skip, if the only available test would assert removed or unsupported behavior
 
 If the plan is missing one of these, stop and repair the plan before writing tests or implementation code.
 
@@ -96,6 +97,7 @@ A good test focuses on:
 - As few mocks as possible
 - Mocking external uncontrollable systems, not your own business logic
 - Verifying final state and key side effects
+- Positive supported behavior, not proving removed behavior is gone
 
 ```ts
 test('creates a session and generates an assistant message after the user submits a prompt', async () => {
@@ -132,6 +134,12 @@ test('appendMessage works', async () => {
 ```
 
 This test only verifies that a mock was called. It does not prove that the flow actually works.
+
+### Negative Test Rule
+
+Do not write tests whose main assertion is that old behavior, a removed feature, or an unsupported path no longer works.
+
+If the plan's test target would become that kind of negative test, you may skip creating it. Record that the negative test was skipped and reference only the relevant plan description. Do not invent a broader negative-test suite.
 
 ------
 
